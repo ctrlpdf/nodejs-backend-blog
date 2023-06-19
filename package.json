@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-backend-blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ctrlpdf/nodejs-backend-blog.git",
+  "author": "ctrlpdf <ctrlpdf@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "eslint-config-prettier": "^8.8.0",
+    "koa": "^2.14.2",
+    "koa-bodyparser": "^4.4.0",
+    "koa-router": "^12.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.43.0",
+    "nodemon": "^2.0.22"
+  },
+  "scripts": {
+    "start": "node src",
+    "start:dev": "nodemon --watch src/ src/index.js"
+  }
+}
