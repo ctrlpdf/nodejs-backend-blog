@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
+import User from '../models/user';
 
-const jwtMiddleware = (ctx, next) => {
+const jwtMiddleware = async (ctx, next) => {
   const token = ctx.cookies.get('access_token');
   if (!token) return next();
   try {
@@ -9,7 +10,18 @@ const jwtMiddleware = (ctx, next) => {
       _id: decoded._id,
       username: decoded.username,
     };
-    console.log(decoded);
+
+    // Re-issue the token if the remaining validity is less than 2.5 days.
+    const now = Math.floor(Date.now() / 1000);
+    if (decoded.exp - now < 60 * 60 * 24 * 2.5) {
+      const user = await User.findById(decoded._id);
+      const token = user.generateToken();
+      ctx.cookies.set('access_token', token, {
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        httpOnly: true,
+      });
+    }
+
     return next();
   } catch (e) {
     // failure
