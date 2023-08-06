@@ -72,7 +72,7 @@ export const list = async (ctx) => {
   const { tag, username } = ctx.query;
   const query = {
     ...(username ? { 'user.username': username } : {}),
-    ...Joi(tag ? { tags: tag } : {}),
+    ...(tag ? { tags: tag } : {}),
   };
 
   try {
